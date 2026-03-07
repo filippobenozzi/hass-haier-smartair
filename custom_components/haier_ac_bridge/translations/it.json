@@ -2,8 +2,15 @@
   "config": {
     "step": {
       "user": {
+        "title": "Integrazione Haier AC",
+        "description": "Scegli come connettere i tuoi climatizzatori Haier.",
+        "data": {
+          "connection_type": "Tipo di connessione"
+        }
+      },
+      "bridge": {
         "title": "Haier AC Bridge",
-        "description": "Configura l'endpoint del tuo Haier AC Bridge.",
+        "description": "Configura l'endpoint locale del bridge Android.",
         "data": {
           "host": "Indirizzo IP del bridge",
           "token": "Token",
@@ -18,15 +25,34 @@
           "acdevice_healthmode": "Nome switch health mode",
           "acdevice_drymode": "Nome switch dry mode"
         }
+      },
+      "cloud": {
+        "title": "Haier AC Cloud",
+        "description": "Connetti direttamente il tuo account hOn (senza app bridge Android).",
+        "data": {
+          "email": "Email hOn",
+          "password": "Password hOn",
+          "polling": "Intervallo di polling (secondi)",
+          "use_fan_mode": "Abilita modalita ventola da velocita quando spento",
+          "use_dry_mode": "Mostra switch modalita dry",
+          "health_mode_type": "Comportamento modalita health",
+          "swing_type": "Tipo controllo swing",
+          "acdevice_name": "Nome base climate",
+          "acdevice_fan_rightleft": "Nome switch swing destra-sinistra",
+          "acdevice_fan_updown": "Nome switch swing alto-basso",
+          "acdevice_healthmode": "Nome switch health mode",
+          "acdevice_drymode": "Nome switch dry mode"
+        }
       }
     },
     "error": {
-      "cannot_connect": "Connessione al bridge non riuscita",
-      "invalid_auth": "Token non valido",
+      "cannot_connect": "Connessione non riuscita",
+      "invalid_auth": "Credenziali non valide",
+      "no_devices": "Nessun climatizzatore Haier supportato trovato su questo account",
       "unknown": "Errore imprevisto"
     },
     "abort": {
-      "already_configured": "Questo bridge e gia configurato"
+      "already_configured": "Questo account o bridge e gia configurato"
     }
   },
   "options": {

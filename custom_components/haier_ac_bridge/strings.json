@@ -2,8 +2,15 @@
   "config": {
     "step": {
       "user": {
+        "title": "Haier AC Integration",
+        "description": "Choose how to connect your Haier air conditioners.",
+        "data": {
+          "connection_type": "Connection type"
+        }
+      },
+      "bridge": {
         "title": "Haier AC Bridge",
-        "description": "Configure your Haier AC Bridge endpoint.",
+        "description": "Configure your local Android bridge endpoint.",
         "data": {
           "host": "Bridge IP address",
           "token": "Token",
@@ -18,15 +25,34 @@
           "acdevice_healthmode": "Health mode switch name",
           "acdevice_drymode": "Dry mode switch name"
         }
+      },
+      "cloud": {
+        "title": "Haier AC Cloud",
+        "description": "Connect directly with your hOn account (no Android bridge app).",
+        "data": {
+          "email": "hOn email",
+          "password": "hOn password",
+          "polling": "Polling interval (seconds)",
+          "use_fan_mode": "Enable fan mode from fan speed when off",
+          "use_dry_mode": "Expose dry mode switch",
+          "health_mode_type": "Health mode behavior",
+          "swing_type": "Swing control type",
+          "acdevice_name": "Base climate name",
+          "acdevice_fan_rightleft": "Right-left swing switch name",
+          "acdevice_fan_updown": "Up-down swing switch name",
+          "acdevice_healthmode": "Health mode switch name",
+          "acdevice_drymode": "Dry mode switch name"
+        }
       }
     },
     "error": {
-      "cannot_connect": "Failed to connect to bridge",
-      "invalid_auth": "Invalid token",
+      "cannot_connect": "Connection failed",
+      "invalid_auth": "Invalid credentials",
+      "no_devices": "No supported Haier AC devices were found on this account",
       "unknown": "Unexpected error"
     },
     "abort": {
-      "already_configured": "This bridge is already configured"
+      "already_configured": "This account or bridge is already configured"
     }
   },
   "options": {

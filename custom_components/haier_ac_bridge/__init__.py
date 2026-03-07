@@ -7,12 +7,19 @@ import importlib
 from typing import Any
 
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import CONF_HOST, CONF_TOKEN
+from homeassistant.const import CONF_EMAIL, CONF_HOST, CONF_PASSWORD, CONF_TOKEN
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
-from .api import HaierBridgeApi
-from .const import DOMAIN, OPTION_DEFAULTS, PLATFORMS
+from .api import HaierApiClient, HaierBridgeApi, HaierCloudApi
+from .const import (
+    CONF_CONNECTION_TYPE,
+    CONNECTION_TYPE_BRIDGE,
+    CONNECTION_TYPE_CLOUD,
+    DOMAIN,
+    OPTION_DEFAULTS,
+    PLATFORMS,
+)
 from .coordinator import HaierDataCoordinator
 
 
@@ -20,7 +27,7 @@ from .coordinator import HaierDataCoordinator
 class HaierRuntimeData:
     """Runtime objects for a config entry."""
 
-    api: HaierBridgeApi
+    api: HaierApiClient
     coordinator: HaierDataCoordinator
     options: dict[str, Any]
 
@@ -32,11 +39,23 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     options = dict(OPTION_DEFAULTS)
     options.update(entry.options)
 
-    api = HaierBridgeApi(
-        host=entry.data[CONF_HOST],
-        token=entry.data[CONF_TOKEN],
-        session=async_get_clientsession(hass),
-    )
+    session = async_get_clientsession(hass)
+    connection_type = entry.data.get(CONF_CONNECTION_TYPE, CONNECTION_TYPE_BRIDGE)
+
+    if connection_type == CONNECTION_TYPE_CLOUD:
+        api: HaierApiClient = HaierCloudApi(
+            hass=hass,
+            email=entry.data[CONF_EMAIL],
+            password=entry.data[CONF_PASSWORD],
+            session=session,
+        )
+        await api.async_get_devices()
+    else:
+        api = HaierBridgeApi(
+            host=entry.data[CONF_HOST],
+            token=entry.data[CONF_TOKEN],
+            session=session,
+        )
 
     coordinator = HaierDataCoordinator(hass, api, options)
     await coordinator.async_config_entry_first_refresh()
@@ -61,8 +80,11 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Unload a config entry."""
+    runtime = hass.data[DOMAIN].get(entry.entry_id)
     unload_ok = await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
     if unload_ok:
+        if runtime is not None:
+            await runtime.api.async_close()
         hass.data[DOMAIN].pop(entry.entry_id)
     return unload_ok
 
