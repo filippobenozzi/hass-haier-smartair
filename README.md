@@ -20,6 +20,16 @@ This repository now also includes a Home Assistant custom integration:
 - Domain: `haier_ac_bridge`
 - Setup method: UI config flow (no YAML required)
 
+### Install with HACS
+
+1. Open HACS in Home Assistant.
+2. Go to **Integrations**.
+3. Open the menu (top-right) -> **Custom repositories**.
+4. Add this repository URL as category **Integration**.
+5. Search for **Haier AC Bridge** and install it.
+6. Restart Home Assistant.
+7. Go to **Settings -> Devices & Services -> Add Integration** and configure **Haier AC Bridge**.
+
 ### Installation in Home Assistant
 
 1. Copy `custom_components/haier_ac_bridge` into your Home Assistant config directory.

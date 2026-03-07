@@ -1,0 +1,8 @@
+{
+  "name": "Haier AC Bridge",
+  "render_readme": true,
+  "domains": [
+    "haier_ac_bridge"
+  ],
+  "homeassistant": "2024.1.0"
+}
