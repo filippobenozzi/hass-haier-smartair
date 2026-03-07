@@ -222,14 +222,14 @@ class HaierAcBridgeOptionsFlow(OptionsFlow):
     """Handle options for Haier AC Bridge."""
 
     def __init__(self, config_entry: ConfigEntry) -> None:
-        self.config_entry = config_entry
+        self._config_entry = config_entry
 
     async def async_step_init(self, user_input: dict[str, Any] | None = None):
         if user_input is not None:
             return self.async_create_entry(title="", data=user_input)
 
         defaults = dict(OPTION_DEFAULTS)
-        defaults.update(self.config_entry.options)
+        defaults.update(self._config_entry.options)
 
         return self.async_show_form(
             step_id="init",
