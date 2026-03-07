@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+import importlib
 from typing import Any
 
 from homeassistant.config_entries import ConfigEntry
@@ -45,6 +46,13 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         coordinator=coordinator,
         options=options,
     )
+
+    # Pre-import platform modules in executor to avoid blocking import warnings.
+    for platform in PLATFORMS:
+        await hass.async_add_executor_job(
+            importlib.import_module,
+            f"{__package__}.{platform}",
+        )
 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
     entry.async_on_unload(entry.add_update_listener(_async_entry_updated))
