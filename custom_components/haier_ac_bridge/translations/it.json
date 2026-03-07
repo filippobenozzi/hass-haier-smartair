@@ -1,0 +1,51 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Haier AC Bridge",
+        "description": "Configura l'endpoint del tuo Haier AC Bridge.",
+        "data": {
+          "host": "Indirizzo IP del bridge",
+          "token": "Token",
+          "polling": "Intervallo di polling (secondi)",
+          "use_fan_mode": "Abilita modalita ventola da velocita quando spento",
+          "use_dry_mode": "Mostra switch modalita dry",
+          "health_mode_type": "Comportamento modalita health",
+          "swing_type": "Tipo controllo swing",
+          "acdevice_name": "Nome base climate",
+          "acdevice_fan_rightleft": "Nome switch swing destra-sinistra",
+          "acdevice_fan_updown": "Nome switch swing alto-basso",
+          "acdevice_healthmode": "Nome switch health mode",
+          "acdevice_drymode": "Nome switch dry mode"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Connessione al bridge non riuscita",
+      "invalid_auth": "Token non valido",
+      "unknown": "Errore imprevisto"
+    },
+    "abort": {
+      "already_configured": "Questo bridge e gia configurato"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Opzioni Haier AC Bridge",
+        "data": {
+          "polling": "Intervallo di polling (secondi)",
+          "use_fan_mode": "Abilita modalita ventola da velocita quando spento",
+          "use_dry_mode": "Mostra switch modalita dry",
+          "health_mode_type": "Comportamento modalita health",
+          "swing_type": "Tipo controllo swing",
+          "acdevice_name": "Nome base climate",
+          "acdevice_fan_rightleft": "Nome switch swing destra-sinistra",
+          "acdevice_fan_updown": "Nome switch swing alto-basso",
+          "acdevice_healthmode": "Nome switch health mode",
+          "acdevice_drymode": "Nome switch dry mode"
+        }
+      }
+    }
+  }
+}

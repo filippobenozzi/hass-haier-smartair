@@ -1,0 +1,51 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Haier AC Bridge",
+        "description": "Configure your Haier AC Bridge endpoint.",
+        "data": {
+          "host": "Bridge IP address",
+          "token": "Token",
+          "polling": "Polling interval (seconds)",
+          "use_fan_mode": "Enable fan mode from fan speed when off",
+          "use_dry_mode": "Expose dry mode switch",
+          "health_mode_type": "Health mode behavior",
+          "swing_type": "Swing control type",
+          "acdevice_name": "Base climate name",
+          "acdevice_fan_rightleft": "Right-left swing switch name",
+          "acdevice_fan_updown": "Up-down swing switch name",
+          "acdevice_healthmode": "Health mode switch name",
+          "acdevice_drymode": "Dry mode switch name"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Failed to connect to bridge",
+      "invalid_auth": "Invalid token",
+      "unknown": "Unexpected error"
+    },
+    "abort": {
+      "already_configured": "This bridge is already configured"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Haier AC Bridge Options",
+        "data": {
+          "polling": "Polling interval (seconds)",
+          "use_fan_mode": "Enable fan mode from fan speed when off",
+          "use_dry_mode": "Expose dry mode switch",
+          "health_mode_type": "Health mode behavior",
+          "swing_type": "Swing control type",
+          "acdevice_name": "Base climate name",
+          "acdevice_fan_rightleft": "Right-left swing switch name",
+          "acdevice_fan_updown": "Up-down swing switch name",
+          "acdevice_healthmode": "Health mode switch name",
+          "acdevice_drymode": "Dry mode switch name"
+        }
+      }
+    }
+  }
+}

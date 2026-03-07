@@ -1,0 +1,10 @@
+{
+  "domain": "haier_ac_bridge",
+  "name": "Haier AC Bridge",
+  "codeowners": ["@filippobenozzi"],
+  "config_flow": true,
+  "documentation": "https://github.com/fastfend/HaierACBridge",
+  "iot_class": "local_polling",
+  "loggers": ["custom_components.haier_ac_bridge"],
+  "version": "0.1.0"
+}
