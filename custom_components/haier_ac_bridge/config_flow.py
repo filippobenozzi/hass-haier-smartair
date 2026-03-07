@@ -10,18 +10,23 @@ from homeassistant.config_entries import ConfigEntry, ConfigFlow, OptionsFlow
 from homeassistant.const import CONF_HOST, CONF_TOKEN
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
-from .api import HaierBridgeApi, HaierBridgeAuthError, HaierBridgeError
+from .api import HaierBridgeApi, HaierBridgeAuthError, HaierBridgeError, HaierDirectApi
 from .const import (
     CONF_ACDEVICE_DRYMODE,
     CONF_ACDEVICE_FAN_RIGHTLEFT,
     CONF_ACDEVICE_FAN_UPDOWN,
     CONF_ACDEVICE_HEALTHMODE,
     CONF_ACDEVICE_NAME,
+    CONF_CONNECTION_TYPE,
     CONF_HEALTH_MODE_TYPE,
+    CONF_MAC,
     CONF_POLLING,
     CONF_SWING_TYPE,
     CONF_USE_DRY_MODE,
     CONF_USE_FAN_MODE,
+    CONNECTION_TYPE_BRIDGE,
+    CONNECTION_TYPE_DIRECT,
+    CONNECTION_TYPES,
     DOMAIN,
     HEALTH_MODE_TYPES,
     OPTION_DEFAULTS,
@@ -29,42 +34,59 @@ from .const import (
 )
 
 
-def _build_schema(defaults: dict[str, Any], *, include_connection: bool) -> vol.Schema:
-    data_schema: dict[Any, Any] = {}
+def _build_options_fields(defaults: dict[str, Any]) -> dict[Any, Any]:
+    fields: dict[Any, Any] = {}
 
-    if include_connection:
-        data_schema[vol.Required(CONF_HOST, default=defaults.get(CONF_HOST, ""))] = str
-        data_schema[vol.Required(CONF_TOKEN, default=defaults.get(CONF_TOKEN, ""))] = str
-
-    data_schema[vol.Required(CONF_POLLING, default=defaults[CONF_POLLING])] = vol.All(
+    fields[vol.Required(CONF_POLLING, default=defaults[CONF_POLLING])] = vol.All(
         vol.Coerce(int), vol.Range(min=1, max=60)
     )
-    data_schema[vol.Required(CONF_USE_FAN_MODE, default=defaults[CONF_USE_FAN_MODE])] = bool
-    data_schema[vol.Required(CONF_USE_DRY_MODE, default=defaults[CONF_USE_DRY_MODE])] = bool
-    data_schema[vol.Required(CONF_HEALTH_MODE_TYPE, default=defaults[CONF_HEALTH_MODE_TYPE])] = vol.In(
+    fields[vol.Required(CONF_USE_FAN_MODE, default=defaults[CONF_USE_FAN_MODE])] = bool
+    fields[vol.Required(CONF_USE_DRY_MODE, default=defaults[CONF_USE_DRY_MODE])] = bool
+    fields[vol.Required(CONF_HEALTH_MODE_TYPE, default=defaults[CONF_HEALTH_MODE_TYPE])] = vol.In(
         HEALTH_MODE_TYPES
     )
-    data_schema[vol.Required(CONF_SWING_TYPE, default=defaults[CONF_SWING_TYPE])] = vol.In(SWING_TYPES)
-
-    data_schema[vol.Required(CONF_ACDEVICE_NAME, default=defaults[CONF_ACDEVICE_NAME])] = str
-    data_schema[vol.Required(
+    fields[vol.Required(CONF_SWING_TYPE, default=defaults[CONF_SWING_TYPE])] = vol.In(SWING_TYPES)
+    fields[vol.Required(CONF_ACDEVICE_NAME, default=defaults[CONF_ACDEVICE_NAME])] = str
+    fields[vol.Required(
         CONF_ACDEVICE_FAN_RIGHTLEFT,
         default=defaults[CONF_ACDEVICE_FAN_RIGHTLEFT],
     )] = str
-    data_schema[vol.Required(
+    fields[vol.Required(
         CONF_ACDEVICE_FAN_UPDOWN,
         default=defaults[CONF_ACDEVICE_FAN_UPDOWN],
     )] = str
-    data_schema[vol.Required(
+    fields[vol.Required(
         CONF_ACDEVICE_HEALTHMODE,
         default=defaults[CONF_ACDEVICE_HEALTHMODE],
     )] = str
-    data_schema[vol.Required(
+    fields[vol.Required(
         CONF_ACDEVICE_DRYMODE,
         default=defaults[CONF_ACDEVICE_DRYMODE],
     )] = str
 
-    return vol.Schema(data_schema)
+    return fields
+
+
+def _build_bridge_schema(defaults: dict[str, Any]) -> vol.Schema:
+    fields: dict[Any, Any] = {
+        vol.Required(CONF_HOST, default=defaults.get(CONF_HOST, "")): str,
+        vol.Required(CONF_TOKEN, default=defaults.get(CONF_TOKEN, "")): str,
+    }
+    fields.update(_build_options_fields(defaults))
+    return vol.Schema(fields)
+
+
+def _build_direct_schema(defaults: dict[str, Any]) -> vol.Schema:
+    fields: dict[Any, Any] = {
+        vol.Required(CONF_HOST, default=defaults.get(CONF_HOST, "")): str,
+        vol.Required(CONF_MAC, default=defaults.get(CONF_MAC, "")): str,
+    }
+    fields.update(_build_options_fields(defaults))
+    return vol.Schema(fields)
+
+
+def _build_options_schema(defaults: dict[str, Any]) -> vol.Schema:
+    return vol.Schema(_build_options_fields(defaults))
 
 
 class HaierAcBridgeConfigFlow(ConfigFlow, domain=DOMAIN):
@@ -73,6 +95,24 @@ class HaierAcBridgeConfigFlow(ConfigFlow, domain=DOMAIN):
     VERSION = 1
 
     async def async_step_user(self, user_input: dict[str, Any] | None = None):
+        if user_input is not None:
+            if user_input[CONF_CONNECTION_TYPE] == CONNECTION_TYPE_DIRECT:
+                return await self.async_step_direct()
+            return await self.async_step_bridge()
+
+        return self.async_show_form(
+            step_id="user",
+            data_schema=vol.Schema(
+                {
+                    vol.Required(
+                        CONF_CONNECTION_TYPE,
+                        default=CONNECTION_TYPE_BRIDGE,
+                    ): vol.In(CONNECTION_TYPES)
+                }
+            ),
+        )
+
+    async def async_step_bridge(self, user_input: dict[str, Any] | None = None):
         errors: dict[str, str] = {}
 
         if user_input is not None:
@@ -93,6 +133,7 @@ class HaierAcBridgeConfigFlow(ConfigFlow, domain=DOMAIN):
                 self._abort_if_unique_id_configured()
 
                 data = {
+                    CONF_CONNECTION_TYPE: CONNECTION_TYPE_BRIDGE,
                     CONF_HOST: host,
                     CONF_TOKEN: token,
                 }
@@ -113,8 +154,61 @@ class HaierAcBridgeConfigFlow(ConfigFlow, domain=DOMAIN):
             defaults.update(user_input)
 
         return self.async_show_form(
-            step_id="user",
-            data_schema=_build_schema(defaults, include_connection=True),
+            step_id="bridge",
+            data_schema=_build_bridge_schema(defaults),
+            errors=errors,
+        )
+
+    async def async_step_direct(self, user_input: dict[str, Any] | None = None):
+        errors: dict[str, str] = {}
+
+        if user_input is not None:
+            host = user_input[CONF_HOST]
+            mac = user_input[CONF_MAC]
+
+            try:
+                api = HaierDirectApi(host, mac)
+            except ValueError:
+                errors["base"] = "invalid_mac"
+            else:
+                try:
+                    devices = await api.async_get_devices()
+                except HaierBridgeError:
+                    errors["base"] = "cannot_connect"
+                except Exception:  # noqa: BLE001
+                    errors["base"] = "unknown"
+                else:
+                    device_id = devices[0]["id"]
+                    unique_id = f"{CONNECTION_TYPE_DIRECT}:{device_id}"
+                    await self.async_set_unique_id(unique_id)
+                    self._abort_if_unique_id_configured()
+
+                    data = {
+                        CONF_CONNECTION_TYPE: CONNECTION_TYPE_DIRECT,
+                        CONF_HOST: host,
+                        CONF_MAC: mac,
+                    }
+                    options = {
+                        key: value
+                        for key, value in user_input.items()
+                        if key not in {CONF_HOST, CONF_MAC}
+                    }
+
+                    return self.async_create_entry(
+                        title=f"Haier AC Direct ({host})",
+                        data=data,
+                        options=options,
+                    )
+                finally:
+                    await api.async_close()
+
+        defaults = dict(OPTION_DEFAULTS)
+        if user_input:
+            defaults.update(user_input)
+
+        return self.async_show_form(
+            step_id="direct",
+            data_schema=_build_direct_schema(defaults),
             errors=errors,
         )
 
@@ -139,5 +233,5 @@ class HaierAcBridgeOptionsFlow(OptionsFlow):
 
         return self.async_show_form(
             step_id="init",
-            data_schema=_build_schema(defaults, include_connection=False),
+            data_schema=_build_options_schema(defaults),
         )

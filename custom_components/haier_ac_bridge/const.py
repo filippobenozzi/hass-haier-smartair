@@ -8,7 +8,9 @@ DOMAIN = "haier_ac_bridge"
 
 PLATFORMS: list[Platform] = [Platform.CLIMATE, Platform.SWITCH]
 
+CONF_CONNECTION_TYPE = "connection_type"
 CONF_POLLING = "polling"
+CONF_MAC = "mac"
 CONF_USE_FAN_MODE = "use_fan_mode"
 CONF_USE_DRY_MODE = "use_dry_mode"
 CONF_HEALTH_MODE_TYPE = "health_mode_type"
@@ -18,6 +20,10 @@ CONF_ACDEVICE_FAN_RIGHTLEFT = "acdevice_fan_rightleft"
 CONF_ACDEVICE_FAN_UPDOWN = "acdevice_fan_updown"
 CONF_ACDEVICE_HEALTHMODE = "acdevice_healthmode"
 CONF_ACDEVICE_DRYMODE = "acdevice_drymode"
+
+CONNECTION_TYPE_BRIDGE = "bridge"
+CONNECTION_TYPE_DIRECT = "direct"
+CONNECTION_TYPES = [CONNECTION_TYPE_BRIDGE, CONNECTION_TYPE_DIRECT]
 
 HEALTH_MODE_SHOW = "SHOW"
 HEALTH_MODE_FORCE = "FORCE"

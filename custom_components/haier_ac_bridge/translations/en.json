@@ -2,8 +2,15 @@
   "config": {
     "step": {
       "user": {
+        "title": "Haier AC Integration",
+        "description": "Choose the connection mode.",
+        "data": {
+          "connection_type": "Connection mode"
+        }
+      },
+      "bridge": {
         "title": "Haier AC Bridge",
-        "description": "Configure your Haier AC Bridge endpoint.",
+        "description": "Configure your Android bridge endpoint.",
         "data": {
           "host": "Bridge IP address",
           "token": "Token",
@@ -18,15 +25,34 @@
           "acdevice_healthmode": "Health mode switch name",
           "acdevice_drymode": "Dry mode switch name"
         }
+      },
+      "direct": {
+        "title": "Haier AC Direct (Experimental)",
+        "description": "Connect directly to the AC over LAN (protocol from bstuff/haier-ac-remote).",
+        "data": {
+          "host": "AC IP address",
+          "mac": "AC MAC address (12 hex chars)",
+          "polling": "Polling interval (seconds)",
+          "use_fan_mode": "Enable fan mode from fan speed when off",
+          "use_dry_mode": "Expose dry mode switch",
+          "health_mode_type": "Health mode behavior",
+          "swing_type": "Swing control type",
+          "acdevice_name": "Base climate name",
+          "acdevice_fan_rightleft": "Right-left swing switch name",
+          "acdevice_fan_updown": "Up-down swing switch name",
+          "acdevice_healthmode": "Health mode switch name",
+          "acdevice_drymode": "Dry mode switch name"
+        }
       }
     },
     "error": {
-      "cannot_connect": "Failed to connect to bridge",
+      "cannot_connect": "Connection failed",
       "invalid_auth": "Invalid token",
+      "invalid_mac": "Invalid MAC format (use 12 hex characters)",
       "unknown": "Unexpected error"
     },
     "abort": {
-      "already_configured": "This bridge is already configured"
+      "already_configured": "This device or bridge is already configured"
     }
   },
   "options": {

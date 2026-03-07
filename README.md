@@ -1,6 +1,8 @@
 # Haier AC Bridge for Home Assistant
 
-A custom **Home Assistant** integration to control Haier air conditioners through a local SmartAir2-compatible bridge.
+A custom **Home Assistant** integration to control Haier air conditioners through:
+- a local SmartAir2-compatible Android bridge, or
+- an experimental direct LAN mode inspired by `bstuff/haier-ac-remote`.
 
 ## Acknowledgements
 
@@ -12,7 +14,8 @@ This project is **Home Assistant only**.
 
 ## Features
 
-- Automatic device discovery from the bridge
+- Bridge mode (`host` + `token`) compatible with fastfend HaierACBridge app
+- Direct mode (`host` + `mac`) experimental, no Android bridge app
 - One `climate` entity per AC
 - HVAC modes: `off`, `cool`, `heat`, `auto`, `fan_only`, `dry`
 - Target temperature control
@@ -35,9 +38,9 @@ This project is **Home Assistant only**.
 
 1. Go to **Settings -> Devices & Services -> Add Integration**.
 2. Search for **Haier AC Bridge**.
-3. Enter:
-   - `host` (bridge IP address)
-   - `token`
+3. Select connection mode and enter:
+   - `Bridge`: `host` (bridge IP) + `token`
+   - `Direct (Experimental)`: `host` (AC IP) + `mac` (12 hex chars)
    - optional behavior settings (`polling`, `use_fan_mode`, `use_dry_mode`, `health_mode_type`, `swing_type`, custom names)
 
 ## Integration Details
@@ -48,5 +51,5 @@ This project is **Home Assistant only**.
 
 ## Notes
 
-- The bridge must be reachable on your local network at port `10000`.
-- If the token is invalid, setup will fail.
+- Bridge mode requires the Android bridge app reachable on port `10000`.
+- Direct mode uses TCP port `56800` and can be firmware-dependent.

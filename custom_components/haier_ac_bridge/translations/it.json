@@ -2,8 +2,15 @@
   "config": {
     "step": {
       "user": {
+        "title": "Integrazione Haier AC",
+        "description": "Scegli la modalita di connessione.",
+        "data": {
+          "connection_type": "Modalita di connessione"
+        }
+      },
+      "bridge": {
         "title": "Haier AC Bridge",
-        "description": "Configura l'endpoint del tuo Haier AC Bridge.",
+        "description": "Configura l'endpoint del bridge Android.",
         "data": {
           "host": "Indirizzo IP del bridge",
           "token": "Token",
@@ -18,15 +25,34 @@
           "acdevice_healthmode": "Nome switch health mode",
           "acdevice_drymode": "Nome switch dry mode"
         }
+      },
+      "direct": {
+        "title": "Haier AC Direct (Sperimentale)",
+        "description": "Connessione diretta LAN al climatizzatore (protocollo da bstuff/haier-ac-remote).",
+        "data": {
+          "host": "Indirizzo IP del climatizzatore",
+          "mac": "MAC del climatizzatore (12 caratteri esadecimali)",
+          "polling": "Intervallo di polling (secondi)",
+          "use_fan_mode": "Abilita modalita ventola da velocita quando spento",
+          "use_dry_mode": "Mostra switch modalita dry",
+          "health_mode_type": "Comportamento modalita health",
+          "swing_type": "Tipo controllo swing",
+          "acdevice_name": "Nome base climate",
+          "acdevice_fan_rightleft": "Nome switch swing destra-sinistra",
+          "acdevice_fan_updown": "Nome switch swing alto-basso",
+          "acdevice_healthmode": "Nome switch health mode",
+          "acdevice_drymode": "Nome switch dry mode"
+        }
       }
     },
     "error": {
-      "cannot_connect": "Connessione al bridge non riuscita",
+      "cannot_connect": "Connessione non riuscita",
       "invalid_auth": "Token non valido",
+      "invalid_mac": "Formato MAC non valido (usa 12 caratteri esadecimali)",
       "unknown": "Errore imprevisto"
     },
     "abort": {
-      "already_configured": "Questo bridge e gia configurato"
+      "already_configured": "Questo dispositivo o bridge e gia configurato"
     }
   },
   "options": {
