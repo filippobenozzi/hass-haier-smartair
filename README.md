@@ -1,52 +1,52 @@
 # Haier AC Bridge for Home Assistant
 
-Integrazione custom per **Home Assistant** che controlla i climatizzatori Haier tramite bridge locale compatibile con SmartAir2.
+A custom **Home Assistant** integration to control Haier air conditioners through a local SmartAir2-compatible bridge.
 
-## Ringraziamenti
+## Acknowledgements
 
-Questa integrazione e stata resa possibile dallo straordinario lavoro di [fastfend](https://github.com/fastfend), da cui ho preso ispirazione.
+This integration was made possible by the outstanding work of [fastfend](https://github.com/fastfend), which inspired this project.
 
-## Supporto piattaforma
+## Platform Support
 
-Questo progetto e **solo per Home Assistant**.
+This project is **Home Assistant only**.
 
-## Funzionalita
+## Features
 
-- Rilevamento automatico dei dispositivi dal bridge
-- Entita `climate` per ogni AC
-- Modalita HVAC: `off`, `cool`, `heat`, `auto`, `fan_only`, `dry`
-- Controllo temperatura target
-- Controllo velocita ventola (`low`, `medium`, `high`, `auto`)
-- Lettura temperatura e umidita correnti
-- Swing combinato (`BOTH`) oppure swing separato (`INDIVIDUAL`)
-- Switch opzionali: `Health Mode`, `Dry Mode`, `RightLeft Swing`, `UpDown Swing`
-- Polling configurabile
+- Automatic device discovery from the bridge
+- One `climate` entity per AC
+- HVAC modes: `off`, `cool`, `heat`, `auto`, `fan_only`, `dry`
+- Target temperature control
+- Fan speed control (`low`, `medium`, `high`, `auto`)
+- Current temperature and humidity reporting
+- Combined swing (`BOTH`) or separate swing controls (`INDIVIDUAL`)
+- Optional switches: `Health Mode`, `Dry Mode`, `RightLeft Swing`, `UpDown Swing`
+- Configurable polling interval
 
-## Installazione (HACS)
+## Installation (HACS)
 
-1. Apri HACS in Home Assistant.
-2. Vai su **Integrations**.
-3. Menu in alto a destra -> **Custom repositories**.
-4. Aggiungi questo repository come categoria **Integration**.
-5. Installa **Haier AC Bridge**.
-6. Riavvia Home Assistant.
+1. Open HACS in Home Assistant.
+2. Go to **Integrations**.
+3. Open the top-right menu and select **Custom repositories**.
+4. Add this repository URL with category **Integration**.
+5. Install **Haier AC Bridge**.
+6. Restart Home Assistant.
 
-## Configurazione
+## Configuration
 
-1. Vai in **Settings -> Devices & Services -> Add Integration**.
-2. Cerca **Haier AC Bridge**.
-3. Inserisci:
-   - `host` (IP del bridge)
+1. Go to **Settings -> Devices & Services -> Add Integration**.
+2. Search for **Haier AC Bridge**.
+3. Enter:
+   - `host` (bridge IP address)
    - `token`
-   - opzioni comportamentali (`polling`, `use_fan_mode`, `use_dry_mode`, `health_mode_type`, `swing_type`, nomi personalizzati)
+   - optional behavior settings (`polling`, `use_fan_mode`, `use_dry_mode`, `health_mode_type`, `swing_type`, custom names)
 
-## Struttura integrazione
+## Integration Details
 
-- Dominio: `haier_ac_bridge`
-- Percorso: `custom_components/haier_ac_bridge`
-- Setup: config flow UI (senza YAML obbligatorio)
+- Domain: `haier_ac_bridge`
+- Path: `custom_components/haier_ac_bridge`
+- Setup method: UI config flow (no mandatory YAML)
 
-## Note
+## Notes
 
-- Il bridge deve essere raggiungibile in LAN sulla porta `10000`.
-- Se il token e errato, l'integrazione non completa il setup.
+- The bridge must be reachable on your local network at port `10000`.
+- If the token is invalid, setup will fail.
