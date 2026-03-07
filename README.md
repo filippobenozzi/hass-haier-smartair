@@ -1,6 +1,6 @@
 # Haier AC Bridge for Home Assistant
 
-A custom **Home Assistant** integration to control Haier air conditioners either directly from hOn cloud or through a local SmartAir2-compatible bridge.
+A custom **Home Assistant** integration to control Haier air conditioners through a local SmartAir2-compatible bridge.
 
 ## Acknowledgements
 
@@ -12,10 +12,7 @@ This project is **Home Assistant only**.
 
 ## Features
 
-- Two connection modes:
-  - `Cloud (hOn account)` without Android bridge app
-  - `Local bridge` (legacy Android app endpoint)
-- Automatic device discovery
+- Automatic device discovery from the bridge
 - One `climate` entity per AC
 - HVAC modes: `off`, `cool`, `heat`, `auto`, `fan_only`, `dry`
 - Target temperature control
@@ -39,9 +36,8 @@ This project is **Home Assistant only**.
 1. Go to **Settings -> Devices & Services -> Add Integration**.
 2. Search for **Haier AC Bridge**.
 3. Enter:
-   - connection type:
-     - `Cloud`: `email` + `password` for hOn account
-     - `Bridge`: `host` + `token`
+   - `host` (bridge IP address)
+   - `token`
    - optional behavior settings (`polling`, `use_fan_mode`, `use_dry_mode`, `health_mode_type`, `swing_type`, custom names)
 
 ## Integration Details
@@ -52,5 +48,5 @@ This project is **Home Assistant only**.
 
 ## Notes
 
-- Cloud mode requires valid hOn credentials and internet connectivity.
-- Bridge mode requires the Android bridge app reachable on port `10000`.
+- The bridge must be reachable on your local network at port `10000`.
+- If the token is invalid, setup will fail.

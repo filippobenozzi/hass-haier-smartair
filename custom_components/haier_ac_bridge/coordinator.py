@@ -12,7 +12,7 @@ from typing import Any
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
-from .api import HaierApiClient, HaierBridgeAuthError, HaierBridgeError
+from .api import HaierBridgeApi, HaierBridgeAuthError, HaierBridgeError
 from .const import (
     CONF_HEALTH_MODE_TYPE,
     CONF_POLLING,
@@ -55,7 +55,7 @@ class HaierDataCoordinator(DataUpdateCoordinator[dict[str, dict[str, Any]]]):
     def __init__(
         self,
         hass: HomeAssistant,
-        api: HaierApiClient,
+        api: HaierBridgeApi,
         options: dict[str, Any],
     ) -> None:
         super().__init__(

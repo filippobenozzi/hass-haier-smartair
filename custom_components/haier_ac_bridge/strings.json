@@ -2,15 +2,8 @@
   "config": {
     "step": {
       "user": {
-        "title": "Haier AC Integration",
-        "description": "Choose how to connect your Haier air conditioners.",
-        "data": {
-          "connection_type": "Connection type"
-        }
-      },
-      "bridge": {
         "title": "Haier AC Bridge",
-        "description": "Configure your local Android bridge endpoint.",
+        "description": "Configure your Haier AC Bridge endpoint.",
         "data": {
           "host": "Bridge IP address",
           "token": "Token",
@@ -25,35 +18,15 @@
           "acdevice_healthmode": "Health mode switch name",
           "acdevice_drymode": "Dry mode switch name"
         }
-      },
-      "cloud": {
-        "title": "Haier AC Cloud",
-        "description": "Connect directly with your hOn account (no Android bridge app).",
-        "data": {
-          "email": "hOn email",
-          "password": "hOn password",
-          "polling": "Polling interval (seconds)",
-          "use_fan_mode": "Enable fan mode from fan speed when off",
-          "use_dry_mode": "Expose dry mode switch",
-          "health_mode_type": "Health mode behavior",
-          "swing_type": "Swing control type",
-          "acdevice_name": "Base climate name",
-          "acdevice_fan_rightleft": "Right-left swing switch name",
-          "acdevice_fan_updown": "Up-down swing switch name",
-          "acdevice_healthmode": "Health mode switch name",
-          "acdevice_drymode": "Dry mode switch name"
-        }
       }
     },
     "error": {
-      "cannot_connect": "Connection failed",
-      "invalid_auth": "Invalid credentials",
-      "password_change_required": "hOn requires a password update before API login. Change your password in the hOn app (or account portal) and retry.",
-      "no_devices": "No supported Haier AC devices were found on this account",
+      "cannot_connect": "Failed to connect to bridge",
+      "invalid_auth": "Invalid token",
       "unknown": "Unexpected error"
     },
     "abort": {
-      "already_configured": "This account or bridge is already configured"
+      "already_configured": "This bridge is already configured"
     }
   },
   "options": {
