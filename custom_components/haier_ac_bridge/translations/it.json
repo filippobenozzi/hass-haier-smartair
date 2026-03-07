@@ -49,7 +49,8 @@
       "cannot_connect": "Connessione non riuscita",
       "invalid_auth": "Credenziali non valide",
       "no_devices": "Nessun climatizzatore Haier supportato trovato su questo account",
-      "unknown": "Errore imprevisto"
+      "unknown": "Errore imprevisto",
+      "password_change_required": "hOn richiede l'aggiornamento della password prima del login API. Cambia password su app hOn (o portale account) e riprova."
     },
     "abort": {
       "already_configured": "Questo account o bridge e gia configurato"

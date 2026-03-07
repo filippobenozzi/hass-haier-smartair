@@ -10,7 +10,13 @@ from homeassistant.config_entries import ConfigEntry, ConfigFlow, OptionsFlow
 from homeassistant.const import CONF_EMAIL, CONF_HOST, CONF_PASSWORD, CONF_TOKEN
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
-from .api import HaierBridgeApi, HaierBridgeAuthError, HaierBridgeError, HaierCloudApi
+from .api import (
+    HaierBridgeApi,
+    HaierBridgeAuthError,
+    HaierBridgeError,
+    HaierBridgePasswordChangeRequired,
+    HaierCloudApi,
+)
 from .const import (
     CONF_ACDEVICE_DRYMODE,
     CONF_ACDEVICE_FAN_RIGHTLEFT,
@@ -173,6 +179,8 @@ class HaierAcBridgeConfigFlow(ConfigFlow, domain=DOMAIN):
             )
             try:
                 devices = await api.async_get_devices()
+            except HaierBridgePasswordChangeRequired:
+                errors["base"] = "password_change_required"
             except HaierBridgeAuthError:
                 errors["base"] = "invalid_auth"
             except HaierBridgeError:

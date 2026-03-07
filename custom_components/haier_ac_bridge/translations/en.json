@@ -49,7 +49,8 @@
       "cannot_connect": "Connection failed",
       "invalid_auth": "Invalid credentials",
       "no_devices": "No supported Haier AC devices were found on this account",
-      "unknown": "Unexpected error"
+      "unknown": "Unexpected error",
+      "password_change_required": "hOn requires a password update before API login. Change your password in the hOn app (or account portal) and retry."
     },
     "abort": {
       "already_configured": "This account or bridge is already configured"

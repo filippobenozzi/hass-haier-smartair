@@ -9,9 +9,16 @@ from typing import Any
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_EMAIL, CONF_HOST, CONF_PASSWORD, CONF_TOKEN
 from homeassistant.core import HomeAssistant
+from homeassistant.exceptions import ConfigEntryAuthFailed
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
-from .api import HaierApiClient, HaierBridgeApi, HaierCloudApi
+from .api import (
+    HaierApiClient,
+    HaierBridgeApi,
+    HaierBridgeAuthError,
+    HaierBridgePasswordChangeRequired,
+    HaierCloudApi,
+)
 from .const import (
     CONF_CONNECTION_TYPE,
     CONNECTION_TYPE_BRIDGE,
@@ -49,7 +56,14 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
             password=entry.data[CONF_PASSWORD],
             session=session,
         )
-        await api.async_get_devices()
+        try:
+            await api.async_get_devices()
+        except HaierBridgePasswordChangeRequired as err:
+            raise ConfigEntryAuthFailed(
+                "hOn requires a password change before cloud login can continue"
+            ) from err
+        except HaierBridgeAuthError as err:
+            raise ConfigEntryAuthFailed("Cloud authentication failed") from err
     else:
         api = HaierBridgeApi(
             host=entry.data[CONF_HOST],

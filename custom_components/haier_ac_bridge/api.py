@@ -85,6 +85,10 @@ class HaierBridgeAuthError(HaierBridgeError):
     """Raised when bridge authentication fails."""
 
 
+class HaierBridgePasswordChangeRequired(HaierBridgeAuthError):
+    """Raised when hOn forces a password update before API login."""
+
+
 class HaierApiClient(Protocol):
     """Interface shared by bridge and cloud API clients."""
 
@@ -307,6 +311,12 @@ class HaierCloudApi:
                 self._hon = await hon.create()
             except Exception as err:  # noqa: BLE001
                 self._hon = None
+                message = str(err)
+                lowered = message.lower()
+                if "changepassword" in lowered or "change password" in lowered:
+                    raise HaierBridgePasswordChangeRequired(
+                        "hOn requires a password change before cloud login can continue"
+                    ) from err
                 if "pyhon_exceptions" in locals() and isinstance(
                     err,
                     (
@@ -315,8 +325,7 @@ class HaierCloudApi:
                     ),
                 ):
                     raise HaierBridgeAuthError("Cloud authentication failed") from err
-                message = str(err).lower()
-                if "auth" in message or "password" in message or "login" in message:
+                if "auth" in lowered or "password" in lowered or "login" in lowered:
                     raise HaierBridgeAuthError("Cloud authentication failed") from err
                 raise HaierBridgeError(f"Cloud initialization failed: {err}") from err
 
