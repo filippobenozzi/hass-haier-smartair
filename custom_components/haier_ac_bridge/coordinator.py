@@ -177,8 +177,9 @@ class HaierDataCoordinator(DataUpdateCoordinator[dict[str, dict[str, Any]]]):
             except HaierBridgeError as err:
                 raise UpdateFailed(f"Cannot send command: {err}") from err
 
+            # Keep local state aligned with the actual payload sent to bridge.
+            next_state["healthmode"] = payload["healthmode"]
+
             new_data = dict(self.data or {})
             new_data[device_id] = next_state
             self.async_set_updated_data(new_data)
-
-        self.hass.async_create_task(self.async_request_refresh())
