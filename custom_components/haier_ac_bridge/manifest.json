@@ -1,10 +1,17 @@
 {
   "domain": "haier_ac_bridge",
   "name": "Haier AC Bridge",
-  "codeowners": ["@filippobenozzi"],
+  "codeowners": [
+    "@filippobenozzi"
+  ],
   "config_flow": true,
-  "documentation": "https://github.com/fastfend/HaierACBridge",
+  "documentation": "https://github.com/filippobenozzi/hass-haier-smartair",
+  "integration_type": "hub",
   "iot_class": "local_polling",
-  "loggers": ["custom_components.haier_ac_bridge"],
-  "version": "0.2.0"
+  "issue_tracker": "https://github.com/filippobenozzi/hass-haier-smartair/issues",
+  "loggers": [
+    "custom_components.haier_ac_bridge"
+  ],
+  "requirements": [],
+  "version": "0.3.0"
 }

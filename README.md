@@ -10,11 +10,11 @@ This integration was made possible by the outstanding work of [fastfend](https:/
 
 ## Platform Support
 
-This project is **Home Assistant only**.
+This project is **Home Assistant only**. Minimum supported core: **2024.6.0**.
 
 ## Features
 
-- Bridge mode (`host` + `token`) compatible with fastfend HaierACBridge app
+- Bridge mode (`host` + `token`) compatible with the fastfend HaierACBridge app
 - Direct mode (`host` + `mac`) experimental, no Android bridge app
 - One `climate` entity per AC
 - HVAC modes: `off`, `cool`, `heat`, `auto`, `fan_only`, `dry`
@@ -24,6 +24,8 @@ This project is **Home Assistant only**.
 - Combined swing (`BOTH`) or separate swing controls (`INDIVIDUAL`)
 - Optional switches: `Health Mode`, `Dry Mode`, `RightLeft Swing`, `UpDown Swing`
 - Configurable polling interval
+- **Connection settings (IP, token, MAC) can be changed at any time**, without
+  removing and re-adding the integration
 
 ## Installation (HACS)
 
@@ -36,20 +38,43 @@ This project is **Home Assistant only**.
 
 ## Configuration
 
-1. Go to **Settings -> Devices & Services -> Add Integration**.
+1. Go to **Settings → Devices & Services → Add Integration**.
 2. Search for **Haier AC Bridge**.
-3. Select connection mode and enter:
+3. Select the connection mode and enter:
    - `Bridge`: `host` (bridge IP) + `token`
    - `Direct (Experimental)`: `host` (AC IP) + `mac` (12 hex chars)
-   - optional behavior settings (`polling`, `use_fan_mode`, `use_dry_mode`, `health_mode_type`, `swing_type`, custom names)
+   - optional behavior settings (`polling`, `use_fan_mode`, `use_dry_mode`,
+     `health_mode_type`, `swing_type`, custom names)
+
+The values are verified against the device before the entry is created.
+
+## Changing the IP address or the token
+
+The connection details stay editable after setup. Two equivalent ways:
+
+- **Settings → Devices & Services → Haier AC Bridge → Configure →
+  _Connection settings_** — available on every supported core version, also
+  while the integration is failing to start.
+- **Settings → Devices & Services → Haier AC Bridge → ⋮ → Reconfigure** — the
+  native Home Assistant button (core 2024.11 and later).
+
+Both forms are pre-filled with the current values, validate the new ones before
+saving, and reload the integration automatically. If the bridge starts rejecting
+the stored token, Home Assistant raises a repair notification that opens the same
+form.
 
 ## Integration Details
 
 - Domain: `haier_ac_bridge`
 - Path: `custom_components/haier_ac_bridge`
-- Setup method: UI config flow (no mandatory YAML)
+- Setup method: UI config flow (no YAML)
+- Bridge transport: HTTP on port `10000`
+- Direct transport: TCP on port `56800`
 
 ## Notes
 
 - Bridge mode requires the Android bridge app reachable on port `10000`.
-- Direct mode uses TCP port `56800` and can be firmware-dependent.
+- Direct mode is firmware-dependent and should be considered experimental.
+- The `src/`, `index.js` and `config.schema.json` files are the original
+  Homebridge plugin this integration was ported from. They are not used by Home
+  Assistant and are kept for reference only.

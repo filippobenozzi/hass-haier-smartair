@@ -3,9 +3,9 @@
     "step": {
       "user": {
         "title": "Integrazione Haier AC",
-        "description": "Scegli la modalita di connessione.",
+        "description": "Scegli la modalità di connessione.",
         "data": {
-          "connection_type": "Modalita di connessione"
+          "connection_type": "Modalità di connessione"
         }
       },
       "bridge": {
@@ -15,63 +15,111 @@
           "host": "Indirizzo IP del bridge",
           "token": "Token",
           "polling": "Intervallo di polling (secondi)",
-          "use_fan_mode": "Abilita modalita ventola da velocita quando spento",
-          "use_dry_mode": "Mostra switch modalita dry",
-          "health_mode_type": "Comportamento modalita health",
-          "swing_type": "Tipo controllo swing",
-          "acdevice_name": "Nome base climate",
+          "use_dry_mode": "Mostra lo switch modalità deumidificazione",
+          "use_fan_mode": "Accendi il climatizzatore in modalità ventola quando cambi la velocità da spento",
+          "health_mode_type": "Comportamento della modalità health",
+          "swing_type": "Tipo di controllo dello swing",
+          "acdevice_name": "Nome base dell'entità climate",
           "acdevice_fan_rightleft": "Nome switch swing destra-sinistra",
           "acdevice_fan_updown": "Nome switch swing alto-basso",
           "acdevice_healthmode": "Nome switch health mode",
-          "acdevice_drymode": "Nome switch dry mode"
+          "acdevice_drymode": "Nome switch deumidificazione"
         }
       },
       "direct": {
-        "title": "Haier AC Direct (Sperimentale)",
+        "title": "Haier AC Direct (sperimentale)",
         "description": "Connessione diretta LAN al climatizzatore (protocollo da bstuff/haier-ac-remote).",
         "data": {
           "host": "Indirizzo IP del climatizzatore",
           "mac": "MAC del climatizzatore (12 caratteri esadecimali)",
           "polling": "Intervallo di polling (secondi)",
-          "use_fan_mode": "Abilita modalita ventola da velocita quando spento",
-          "use_dry_mode": "Mostra switch modalita dry",
-          "health_mode_type": "Comportamento modalita health",
-          "swing_type": "Tipo controllo swing",
-          "acdevice_name": "Nome base climate",
+          "use_dry_mode": "Mostra lo switch modalità deumidificazione",
+          "use_fan_mode": "Accendi il climatizzatore in modalità ventola quando cambi la velocità da spento",
+          "health_mode_type": "Comportamento della modalità health",
+          "swing_type": "Tipo di controllo dello swing",
+          "acdevice_name": "Nome base dell'entità climate",
           "acdevice_fan_rightleft": "Nome switch swing destra-sinistra",
           "acdevice_fan_updown": "Nome switch swing alto-basso",
           "acdevice_healthmode": "Nome switch health mode",
-          "acdevice_drymode": "Nome switch dry mode"
+          "acdevice_drymode": "Nome switch deumidificazione"
+        }
+      },
+      "reconfigure": {
+        "title": "Aggiorna i dati di connessione",
+        "description": "Modifica l'indirizzo IP e le credenziali usate per raggiungere il climatizzatore. I dati vengono verificati prima del salvataggio.",
+        "data": {
+          "host": "Indirizzo IP",
+          "token": "Token",
+          "mac": "MAC del climatizzatore (12 caratteri esadecimali)"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Autenticazione Haier AC Bridge",
+        "description": "Il bridge su {host} ha rifiutato il token salvato. Inserisci l'indirizzo IP e il token attuali.",
+        "data": {
+          "host": "Indirizzo IP",
+          "token": "Token",
+          "mac": "MAC del climatizzatore (12 caratteri esadecimali)"
         }
       }
     },
     "error": {
       "cannot_connect": "Connessione non riuscita",
       "invalid_auth": "Token non valido",
+      "invalid_host": "Indirizzo IP o hostname non valido",
       "invalid_mac": "Formato MAC non valido (usa 12 caratteri esadecimali)",
+      "already_configured": "Un'altra voce usa già queste impostazioni",
       "unknown": "Errore imprevisto"
     },
     "abort": {
-      "already_configured": "Questo dispositivo o bridge e gia configurato"
+      "already_configured": "Questo dispositivo o bridge è già configurato",
+      "reconfigure_successful": "Dati di connessione aggiornati",
+      "reauth_successful": "Autenticazione riuscita",
+      "entry_not_found": "La configurazione non esiste più"
     }
   },
   "options": {
     "step": {
       "init": {
-        "title": "Opzioni Haier AC Bridge",
+        "title": "Haier AC Bridge",
+        "description": "Cosa vuoi modificare?",
+        "menu_options": {
+          "connection": "Dati di connessione (IP, token, MAC)",
+          "settings": "Comportamento e nomi delle entità"
+        }
+      },
+      "connection": {
+        "title": "Dati di connessione",
+        "description": "Modifica l'indirizzo IP e le credenziali usate per raggiungere il climatizzatore. I dati vengono verificati prima del salvataggio.",
+        "data": {
+          "host": "Indirizzo IP",
+          "token": "Token",
+          "mac": "MAC del climatizzatore (12 caratteri esadecimali)"
+        }
+      },
+      "settings": {
+        "title": "Comportamento",
         "data": {
           "polling": "Intervallo di polling (secondi)",
-          "use_fan_mode": "Abilita modalita ventola da velocita quando spento",
-          "use_dry_mode": "Mostra switch modalita dry",
-          "health_mode_type": "Comportamento modalita health",
-          "swing_type": "Tipo controllo swing",
-          "acdevice_name": "Nome base climate",
+          "use_dry_mode": "Mostra lo switch modalità deumidificazione",
+          "use_fan_mode": "Accendi il climatizzatore in modalità ventola quando cambi la velocità da spento",
+          "health_mode_type": "Comportamento della modalità health",
+          "swing_type": "Tipo di controllo dello swing",
+          "acdevice_name": "Nome base dell'entità climate",
           "acdevice_fan_rightleft": "Nome switch swing destra-sinistra",
           "acdevice_fan_updown": "Nome switch swing alto-basso",
           "acdevice_healthmode": "Nome switch health mode",
-          "acdevice_drymode": "Nome switch dry mode"
+          "acdevice_drymode": "Nome switch deumidificazione"
         }
       }
+    },
+    "error": {
+      "cannot_connect": "Connessione non riuscita",
+      "invalid_auth": "Token non valido",
+      "invalid_host": "Indirizzo IP o hostname non valido",
+      "invalid_mac": "Formato MAC non valido (usa 12 caratteri esadecimali)",
+      "already_configured": "Un'altra voce usa già queste impostazioni",
+      "unknown": "Errore imprevisto"
     }
   }
 }

@@ -15,7 +15,7 @@
           "host": "Bridge IP address",
           "token": "Token",
           "polling": "Polling interval (seconds)",
-          "use_fan_mode": "Enable fan mode from fan speed when off",
+          "use_fan_mode": "Turn the AC on in fan mode when the fan speed changes while off",
           "use_dry_mode": "Expose dry mode switch",
           "health_mode_type": "Health mode behavior",
           "swing_type": "Swing control type",
@@ -33,7 +33,75 @@
           "host": "AC IP address",
           "mac": "AC MAC address (12 hex chars)",
           "polling": "Polling interval (seconds)",
-          "use_fan_mode": "Enable fan mode from fan speed when off",
+          "use_fan_mode": "Turn the AC on in fan mode when the fan speed changes while off",
+          "use_dry_mode": "Expose dry mode switch",
+          "health_mode_type": "Health mode behavior",
+          "swing_type": "Swing control type",
+          "acdevice_name": "Base climate name",
+          "acdevice_fan_rightleft": "Right-left swing switch name",
+          "acdevice_fan_updown": "Up-down swing switch name",
+          "acdevice_healthmode": "Health mode switch name",
+          "acdevice_drymode": "Dry mode switch name"
+        }
+      },
+      "reconfigure": {
+        "title": "Update connection settings",
+        "description": "Change the IP address and the credentials used to reach your AC. The settings are verified before they are saved.",
+        "data": {
+          "host": "IP address",
+          "token": "Token",
+          "mac": "AC MAC address (12 hex chars)"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Re-authenticate Haier AC Bridge",
+        "description": "The bridge at {host} rejected the stored token. Enter the current IP address and token.",
+        "data": {
+          "host": "IP address",
+          "token": "Token",
+          "mac": "AC MAC address (12 hex chars)"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Connection failed",
+      "invalid_auth": "Invalid token",
+      "invalid_host": "Invalid IP address or hostname",
+      "invalid_mac": "Invalid MAC format (use 12 hex characters)",
+      "already_configured": "Another entry already uses these settings",
+      "unknown": "Unexpected error"
+    },
+    "abort": {
+      "already_configured": "This device or bridge is already configured",
+      "reconfigure_successful": "Connection settings updated",
+      "reauth_successful": "Re-authentication successful",
+      "entry_not_found": "The configuration entry no longer exists"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Haier AC Bridge",
+        "description": "What do you want to change?",
+        "menu_options": {
+          "connection": "Connection settings (IP, token, MAC)",
+          "settings": "Behavior and entity names"
+        }
+      },
+      "connection": {
+        "title": "Connection settings",
+        "description": "Change the IP address and the credentials used to reach your AC. The settings are verified before they are saved.",
+        "data": {
+          "host": "IP address",
+          "token": "Token",
+          "mac": "AC MAC address (12 hex chars)"
+        }
+      },
+      "settings": {
+        "title": "Behavior",
+        "data": {
+          "polling": "Polling interval (seconds)",
+          "use_fan_mode": "Turn the AC on in fan mode when the fan speed changes while off",
           "use_dry_mode": "Expose dry mode switch",
           "health_mode_type": "Health mode behavior",
           "swing_type": "Swing control type",
@@ -48,30 +116,10 @@
     "error": {
       "cannot_connect": "Connection failed",
       "invalid_auth": "Invalid token",
+      "invalid_host": "Invalid IP address or hostname",
       "invalid_mac": "Invalid MAC format (use 12 hex characters)",
+      "already_configured": "Another entry already uses these settings",
       "unknown": "Unexpected error"
-    },
-    "abort": {
-      "already_configured": "This device or bridge is already configured"
-    }
-  },
-  "options": {
-    "step": {
-      "init": {
-        "title": "Haier AC Bridge Options",
-        "data": {
-          "polling": "Polling interval (seconds)",
-          "use_fan_mode": "Enable fan mode from fan speed when off",
-          "use_dry_mode": "Expose dry mode switch",
-          "health_mode_type": "Health mode behavior",
-          "swing_type": "Swing control type",
-          "acdevice_name": "Base climate name",
-          "acdevice_fan_rightleft": "Right-left swing switch name",
-          "acdevice_fan_updown": "Up-down swing switch name",
-          "acdevice_healthmode": "Health mode switch name",
-          "acdevice_drymode": "Dry mode switch name"
-        }
-      }
     }
   }
 }
